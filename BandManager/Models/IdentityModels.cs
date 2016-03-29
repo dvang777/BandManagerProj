@@ -35,6 +35,9 @@ namespace BandManager.Models
         public DbSet<Manager> Managers { get; set; }
         public DbSet<Inventory> Inventories { get; set; }
         public DbSet<Member> Members { get; set; }
+        public DbSet<ItemSold> ItemsSold { get; set; }
+        public DbSet<Budget> Budgets { get; set; }
+        public DbSet<Appointment> Appointments { get; set; }
 
     }
 }

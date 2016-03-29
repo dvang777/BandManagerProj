@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+
+    <link href="@Url.Content("~/Content/sideBar/")css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="@Url.Content("~/Content/sideBar/")css/simple-sidebar.css" rel="stylesheet">
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/chart")
+
+
+</head>
+<body>
+    <div id="wrapper">
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header" id="right">
+                    @Html.Partial("_LoginPartial")
+                </div>
+            </div>
+        
+
+        <!-- Sidebar -->
+            <div id="sidebar-wrapper">
+                <ul class="sidebar-nav">
+                    <li class="sidebar-brand">
+                        <a>
+                            Welcome Band Manager
+                        </a>
+                    </li>
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    @if (User.IsInRole("Manager"))
+                    {
+                        <li>@Html.ActionLink("Band Members", "Index", "Members")</li>
+                        <li>@Html.ActionLink("Events", "Index", "Events")</li>
+                            <li>@Html.ActionLink("Inventory", "Index", "Inventories")</li>
+                            <li>@Html.ActionLink("Calendar", "Calendar", "Home")</li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+        <div id="page-content-wrapper">
+            <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
+
+            @RenderBody()
+
+        </div>
+    </div>
+
+
+
+
+
+    <script src="@Url.Content("~/Content/sideBar/")js/jquery.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="@Url.Content("~/Content/sideBar/")js/bootstrap.min.js"></script>
+    <!-- Menu Toggle Script -->
+    <script>
+        $("#menu-toggle").click(function (e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+    </script>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+
+</html>
+
+<style>
+    #right {
+        float: right;
+        margin: auto;
+    }
+</style>

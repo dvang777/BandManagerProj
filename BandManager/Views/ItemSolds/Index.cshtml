@@ -1,0 +1,71 @@
+﻿@model IEnumerable<BandManager.Models.ItemSold>
+
+@{
+    Layout = "~/Views/Shared/_SideBarLayout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>View</title>
+</head>
+<body>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.events.Name)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.Inventories.Name)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.QuantitySold)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalRevenue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalSold)
+            </th>
+            <th></th>
+        </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.events.Name)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.Inventories.Name)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.QuantitySold)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalRevenue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalSold)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            </td>
+        </tr>
+    }
+    
+    </table>
+</body>
+</html>

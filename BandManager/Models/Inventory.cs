@@ -15,7 +15,6 @@ namespace BandManager.Models
         [Display (Name = "Ordered YTD")]
         public int OrderedYTD { get; set; }
         public int Quantity { get; set; }
-        public int QuantitySold { get; set; }
         public int QuantityIncoming { get; set; }
         public virtual Band band { get; set; }
         public string BandId { get; set; }

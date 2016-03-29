@@ -16,14 +16,58 @@ namespace BandManager.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Inventories
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder)
         {
             var userID = User.Identity.GetUserId();
             var mgr = db.Managers.Where(a => a.ManagerID == userID).Single();
             var inv = db.Inventories.Where(b => b.band.ID == mgr.BandId).Select(b => b);
+
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DescriptionSortParm = sortOrder == "Description" ? "Description_desc" : "Description";
+            ViewBag.QuantitySortParm = sortOrder == "Quantity" ? "Quantity_desc" : "Quantity";
+            ViewBag.QuantitySoldSortParm = sortOrder == "QuantitySold" ? "QuantitySold_desc" : "QuantitySold";
+            ViewBag.QuantityIncomingSortParm = sortOrder == "QuantityIncoming" ? "QuantityIncoming_desc" : "QuantityIncoming";
+            var inventory = from s in db.Inventories
+                            select s;
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    inventory = inventory.OrderByDescending(s => s.Name);
+                    break;
+                case "Description":
+                    inventory = inventory.OrderBy(s => s.Description);
+                    break;
+                case "Description_desc":
+                    inventory = inventory.OrderByDescending(s => s.Description);
+                    break;
+                case "Quantity":
+                    inventory = inventory.OrderBy(s => s.Quantity);
+                    break;
+                case "Quantity_desc":
+                    inventory = inventory.OrderByDescending(s => s.Quantity);
+                    break;
+                case "QuantityIncoming":
+                    inventory = inventory.OrderBy(s => s.QuantityIncoming);
+                    break;
+                case "QuantityIncoming_desc":
+                    inventory = inventory.OrderByDescending(s => s.QuantityIncoming);
+                    break;
+                    
+            }
+            var quantity = db.Inventories.Select(x => x.Quantity).ToArray();
+            var invent = db.Inventories.Select(z => z.Name).ToList();
+            //int[] test = { 3, 5, 6, 7, 8, 10, 11 };
+
+            //ViewBag.intArray = test;
+            ViewBag.QuantityArray = quantity;
+            ViewBag.InventArray = invent;
             return View(inv.ToList());
         }
 
+        public ActionResult AdminView()
+        {
+            return View();
+        }
         // GET: Inventories/Details/5
         public ActionResult Details(int? id)
         {

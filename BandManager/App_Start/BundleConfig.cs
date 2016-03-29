@@ -24,8 +24,10 @@ namespace BandManager
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
+                      "~/Content/read.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/bundles/Chart").Include("~/Scripts/Chart.js"));
         }
     }
 }

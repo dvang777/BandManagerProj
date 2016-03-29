@@ -2,23 +2,19 @@
 
 @{
     ViewBag.Title = "View";
+    Layout = "~/Views/Shared/_SideBarLayout.cshtml";
 }
 
 <h2>View</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Add Event Info", "Create")
 </p>
 <table class="table">
+
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            Start Date
-        </th>
-        <th>
-            End Date
         </th>
         <th>
             @Html.DisplayNameFor(model => model.City)
@@ -27,37 +23,133 @@
             @Html.DisplayNameFor(model => model.State)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.Begin)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.End)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Attendance)
         </th>
-        <th></th>
     </tr>
-
-@foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.State)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Begin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.End)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Attendance)
+            </td>
+        </tr>
+    }
+@*@foreach (var item in Model)
+{
     <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Events.Name)
+        </th>
         <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Begin)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.End)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.City)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.State)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Attendance)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            @Html.DisplayFor(modelItem => item.Events.Name)
         </td>
     </tr>
-}
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Events.City)
+            </th>
+            <td>
+                @Html.DisplayFor(modelItem => item.Events.City)
+            </td>
+        </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Events.State)
+            </th>
+            <td>
+                @Html.DisplayFor(modelItem => item.Events.State)
+            </td>
+        </tr>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Events.Attendance)
+                </th>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Events.Attendance)
+                </td>
+            </tr>
+
+    foreach (var x in Model)
+    {
+
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Inventories.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Inventories.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Inventories.Size)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ItemsSold.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ItemsSold.QuantitySold)
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => x.Inventories.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => x.Inventories.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => x.Inventories.Size)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => x.ItemsSold.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => x.ItemsSold.QuantitySold)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Events.ID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Events.ID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Events.ID })
+                </td>
+            </tr>
+            @*<tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ItemsSold.TotalSold)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ItemsSold.TotalRevenue)
+                </th>
+            </tr>*@
+
+            @*<tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemsSold.TotalSold)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemsSold.TotalRevenue)
+                </td>
+            </tr>
+    }
+}*@
 
 </table>

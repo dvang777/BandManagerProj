@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_SideBarLayout.cshtml";
 }
 
 <h2>Delete</h2>
@@ -32,7 +33,19 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Email)
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+        <dd>
+            @Html.DisplayFor(model => model.City)
+        </dd>
+        <dd>
+            @Html.DisplayFor(model => model.State)
+        </dd>
+        <dd>
+            @Html.DisplayFor(model => model.ZipCode)
+        </dd>
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNumber)
         </dd>
 
     </dl>

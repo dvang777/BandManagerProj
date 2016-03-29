@@ -22,6 +22,36 @@ namespace BandManager.Controllers
             var mgr = db.Managers.Where(a => a.ManagerID == userID).Single();
             var evt = db.Events.Where(b => b.band.ID == mgr.BandId).Select(b => b);
 
+            var EventInfoModelViewList = db.Events.Where(x => x.BandId == mgr.BandId).Join(db.ItemsSold, e => e.ID, i => i.EventID, (e, i) => new
+            {
+                Events = e,
+                QuantitySold = i.QuantitySold,
+                Price = i.Price,
+                TotalSold = i.TotalSold,
+                TotalRevenue = i.TotalRevenue,
+                i.InventoryID
+            }).Join(db.Inventories, a => a.InventoryID, b => b.ID, (a, b) => new EventInfoViewModel
+            {
+                Events = a.Events,
+                //{
+                //    Name = a.Events.Name,
+                //    Attendance = a.Events.Attendance,
+                //    City = a.Events.City,
+                //    State = a.Events.State
+                //},
+                QuantitySold = a.QuantitySold,
+                Price = a.Price,
+                TotalSold = a.TotalSold,
+                TotalRevenue = a.TotalRevenue,
+                Inventories = b
+                //    {
+                //    Name = b.Name,
+                //    Description = b.Description,
+                //    Size = b.Size,
+                //    Quantity = b.Quantity
+                //}
+            }).ToList();
+
             return View(evt.ToList());
         }
 

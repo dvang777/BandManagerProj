@@ -2,62 +2,233 @@
 
 @{
     ViewBag.Title = "Inventory";
+    Layout = "~/Views/Shared/_SideBarLayout.cshtml";
+
+    int[] result = ViewBag.QuantityArray;
+    string quantity = "";
+
+    for (int i = 0; i <= result.Length - 1; ++i)
+    {
+        if (i == 0)
+        {
+            quantity = quantity + result[i].ToString();
+        }
+        else
+        {
+            quantity = quantity + "," + result[i].ToString();
+        }
+    }
+
+    var labels = ViewBag.InventArray;
+    string invent = "";
+
+    for (int j = 0; j <= labels.Count - 1; ++j)
+    {
+        if (j == 0)
+        {
+            invent = invent + labels[j].ToString();
+        }
+        else
+        {
+            invent = invent + "," + labels[j].ToString();
+        }
+    }
 }
+<link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+
 
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Add Inventory", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Size)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Quantity)
-        </th>
-        <th>
-            Quantity Sold
-        </th>
-        <th>
-            Quantity Incoming
-        </th>
-        <th></th>
-    </tr>
+<table class="table" id="inv">
+    <thead>
+        <tr>
+            <th>
+                @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm })
+            </th>
+            <th>
+                @Html.ActionLink("Description", "Index", new { sortOrder = ViewBag.DescriptionSortParm })           @*DisplayNameFor(model => model.Description)*@
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Size)
+            </th>
+            <th>
+                @Html.ActionLink("Quantity", "Index", new { sortOrder = ViewBag.QuantitySortParm })  @*DisplayNameFor(model => model.Quantity)*@
+            </th>
+            @*<th>
+                    @Html.ActionLink("QuantitySold", "Index", new { sortOrder = ViewBag.QuantitySoldSortParm })
+                </th>*@
+            <th>
+                @Html.ActionLink("QuantityIncoming", "Index", new { sortOrder = ViewBag.QuantityIncomingSortParm })
+            </th>
+            <th></th>
+        </tr>
+    </thead>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Size)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Quantity)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.QuantitySold)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.QuantityIncoming)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tbody>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Size)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QuantityIncoming)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                </td>
+            </tr>
+        </tbody>
+    }
 
 </table>
+
+<canvas id="myChart" width="800" height="400"></canvas>
+
+<script>
+    var result = "@quantity";
+    var labels = "@invent";
+    var resultsArray = result.split(',');
+    var labelsArray = labels.split(',');
+    var context = $("#myChart").get(0).getContext("2d");
+    var data = {
+        labels: labelsArray, //["Tug Ntseeg S", "Tug Ntseeg M", "Tug Ntseeg L", "Tug Ntseeg XL", "Tug Ntseeg XXL"],
+
+        datasets: [{
+
+            label: "My First dataset",
+            fillColor: "rgba(220,220,220,0,2)",
+            strokeColor: "rgba(220,220,220,1)",
+            pointColor: "rgba(220,220,220,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(220,220,220,1)",
+            data: resultsArray
+
+        }]
+    }
+    var options = {
+        ///Boolean - Whether grid lines are shown across the chart
+        scaleShowGridLines: true,
+        //String - Colour of the grid lines
+        scaleGridLineColor: "rgba(0,0,0,.05)",
+        //Number - Width of the grid lines
+        scaleGridLineWidth: 1,
+        //Boolean - Whether the line is curved between points
+        bezierCurve: true,
+        //Number - Tension of the bezier curve between points
+        bezierCurveTension: 0.4,
+        //Boolean - Whether to show a dot for each point
+        pointDot: true,
+        //Number - Radius of each point dot in pixels
+        pointDotRadius: 4,
+        //Number - Pixel width of point dot stroke
+        pointDotStrokeWidth: 1,
+        //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
+        pointHitDetectionRadius: 20,
+        //Boolean - Whether to show a stroke for datasets
+        datasetStroke: true,
+        //Number - Pixel width of dataset stroke
+        datasetStrokeWidth: 2,
+        //Boolean - Whether to fill the dataset with a colour
+        datasetFill: true,
+
+    }
+    var myLineChart = new Chart(context).Line(data, options)
+
+
+</script>
+<script type="text/javascript">
+    $(function () {
+        $("table.tablesorter").tablesorter({ widthFixed: true, sortList: [[0, 0]] })
+        .tablesorterPager({ container: $("#pager"), size: $(".pagesize option:selected").val() });
+    });
+</script>
+@*<script type='text/javascript'>
+
+        $(function () {
+            // Selectors for future use
+            var myTable = "#inv";
+            var myTableBody = myTable + " tbody";
+            var myTableRows = myTableBody + " tr";
+            var myTableColumn = myTable + " th";
+
+            // Starting table state
+            function initTable() {
+
+                // Increment the table width for sort icon support
+                $(myTableColumn).each(function () {
+                    var width = $(this).width();
+                    $(this).width(width + 40);
+                });
+
+                // Set the first column as sorted ascending
+                $(myTableColumn).eq(0).addClass("sorted-asc");
+
+                //Sort the table using the current sorting order
+                sortTable($(myTable), 0, "asc");
+
+            }
+
+            // Table starting state
+            initTable();
+
+            // Table sorting function
+            function sortTable(table, column, order) {
+                var asc = order === 'asc';
+                var tbody = table.find('tbody');
+
+                // Sort the table using a custom sorting function by switching
+                // the rows order, then append them to the table body
+                tbody.find('tr').sort(function (a, b) {
+                    if (asc) {
+                        return $('td:eq(' + column + ')', a).text()
+                            .localeCompare($('td:eq(' + column + ')', b).text());
+                    } else {
+                        return $('td:eq(' + column + ')', b).text()
+                            .localeCompare($('td:eq(' + column + ')', a).text());
+                    }
+                }).appendTo(tbody);
+
+            }
+
+            // Heading click
+            $(myTableColumn).click(function () {
+
+                // Remove the sort classes for all the column, but not the first
+                $(myTableColumn).not($(this)).removeClass("sorted-asc sorted-desc");
+
+                // Set or change the sort direction
+                if ($(this).hasClass("sorted-asc") || $(this).hasClass("sorted-desc")) {
+                    $(this).toggleClass("sorted-asc sorted-desc");
+                } else {
+                    $(this).addClass("sorted-asc");
+                }
+
+                //Sort the table using the current sorting order
+                sortTable($(myTable),
+                            $(this).index(),
+                            $(this).hasClass("sorted-asc") ? "asc" : "desc");
+
+            });
+
+        });
+
+    </script>*@
+<script src="@Url.Content("~/Scripts/jquery-1.4.4.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.tablesorter.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.tablesorter.pager.js")" type="text/javascript"></script>

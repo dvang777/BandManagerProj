@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "DHTMLX Scheduler .NET";
+    Layout = "~/Views/Shared/_SideBarLayout.cshtml";
+}
+
+<h2>Appointment Calendar</h2>
+<div class="scheduler_container">
+    @Html.Raw(Model.Render())
+</div>
+
+<style>
+    body {
+        padding-top: 50px;
+        padding-bottom: 20px;
+    }
+
+    .scheduler_container {
+        width: auto;
+        height: 600px;
+        border: 1px solid #aeaeae;
+    }
+</style>

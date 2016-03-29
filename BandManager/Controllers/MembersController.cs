@@ -28,11 +28,18 @@ namespace BandManager.Controllers
         // GET: Members/Details/5
         public ActionResult Details(int? id)
         {
+            Member member = db.Members.Find(id);
+
+            var userID = User.Identity.GetUserId();
+            var BandID = db.Bands.Where(x => x.ID == userID).Single();
+            member.BandID = BandID.ID;
+
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Member member = db.Members.Find(id);
+
             if (member == null)
             {
                 return HttpNotFound();
@@ -51,7 +58,7 @@ namespace BandManager.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,FirstName,LastName,Email")] Member member)
+        public ActionResult Create([Bind(Include = "ID,FirstName,LastName,Email,Address,City,State,ZipCode,PhoneNumber")] Member member)
         {
             if (ModelState.IsValid)
             {
@@ -70,11 +77,17 @@ namespace BandManager.Controllers
         // GET: Members/Edit/5
         public ActionResult Edit(int? id)
         {
+            Member member = db.Members.Find(id);
+            var userID = User.Identity.GetUserId();
+            var BandID = db.Bands.Where(x => x.ID == userID).Single();
+            member.BandID = BandID.ID;
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Member member = db.Members.Find(id);
+
+
             if (member == null)
             {
                 return HttpNotFound();
@@ -87,7 +100,7 @@ namespace BandManager.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,FirstName,LastName,Email")] Member member)
+        public ActionResult Edit([Bind(Include = "ID,FirstName,LastName,Email,Address,City,State,ZipCode,PhoneNumber")] Member member)
         {
             if (ModelState.IsValid)
             {
