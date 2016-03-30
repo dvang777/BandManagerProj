@@ -38,6 +38,6 @@ namespace BandManager.Models
         public DbSet<ItemSold> ItemsSold { get; set; }
         public DbSet<Budget> Budgets { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
-
+        public DbSet<Contacts> Contact { get; set; }
     }
 }

@@ -2,14 +2,15 @@
     ViewBag.Title = "Home Page";
     Layout = "~/Views/Shared/_SideBarLayout.cshtml";
 }
+<link href='https://fonts.googleapis.com/css?family=Raleway:600italic' rel='stylesheet' type='text/css'>
 
-<div class="jumbotron">
-    <h1>BM</h1>
-    <p class="lead">Welcome To Your Band Manager</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+<div class="jumbotron" id="home">
+    <h1 id="head">Band Manager</h1>
+    <p class="lead" id="head">Welcome To Your Band Manager</p>
+    <p><a onclick='window.location="@Url.Action("Login","Account")";' class="btn btn-primary btn-lg">Log In &raquo;</a></p>
 </div>
 
-<div class="row">
+@*<div class="row">
     <div class="col-md-4">
         <h2>Getting started</h2>
         <p>
@@ -29,4 +30,19 @@
         <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
         <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
     </div>
-</div>
+</div>*@
+
+<style>
+    #head{
+        font-family: 'Raleway', sans-serif;
+        color:white;
+        text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+        text-align: center;
+        margin-top: 1px;
+        
+    }
+    #home{
+        background-image: url("../../Images/concert.jpg");
+        background-position: center;
+    }
+</style>

@@ -2,8 +2,21 @@
 
 @{
     Layout = "~/Views/Shared/_SideBarLayout.cshtml";
+    //var name = Model.Select(b => b.Name).ToString();
+    //var total = Model.Where(a => a.Name == name).Select(a => a.Total);
+    //var type = Model.Select(c => c.TransactionAmount).FirstOrDefault();
+    //var newTotal = ViewBag.Total;
 
-    var total = Model.Sum(a => a.Total);
+    //if (name == "expense")
+    //{
+    //    newTotal = newTotal - type;
+    //}
+    //else if (name == "deposit")
+    //{
+    //    newTotal = newTotal + type;
+    //}
+
+    var total = Model.Sum(a => a.TransactionAmount);
 }
 
 <!DOCTYPE html>
@@ -11,21 +24,19 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
+    <link href='https://fonts.googleapis.com/css?family=Play' rel='stylesheet' type='text/css'>
     <title>Budget Page</title>
 </head>
 <body>
     <p>
         @Html.ActionLink("Transaction Log", "Create")
     </p>
-    <p> @total</p>
+    <p id="totals"> @total</p><p id="balance">current balance</p>
     <table class="table">
         <tr>
-            @*<th>
-                @Html.DisplayNameFor(model => model.band.Name)
-            </th>
             <th>
-                @Html.DisplayNameFor(model => model.Total)
-            </th>*@
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.TransactionDescription)
             </th>
@@ -37,32 +48,42 @@
             </th>
             <th></th>
         </tr>
-    
-    @foreach (var item in Model) {
-        <tr>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.band.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Total)
-            </td>*@
-            <td>
-                @Html.DisplayFor(modelItem => item.TransactionDescription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TransactionAmount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TransActionDate)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-                @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-            </td>
-        </tr>
-    }
-    
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TransactionDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TransactionAmount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TransActionDate)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                </td>
+            </tr>
+        }
+
     </table>
 </body>
 </html>
+<style>
+    #totals{
+        text-align: center;
+        font-family: 'Play', sans-serif;
+        font-size: xx-large;
+
+    }
+    #balance{
+        text-align: center;
+
+    }
+</style>

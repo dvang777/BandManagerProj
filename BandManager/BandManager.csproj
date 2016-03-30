@@ -207,6 +207,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BandsController.cs" />
     <Compile Include="Controllers\BudgetsController.cs" />
+    <Compile Include="Controllers\ContactsController.cs" />
     <Compile Include="Controllers\EventsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InventoriesController.cs" />
@@ -251,11 +252,24 @@
     <Compile Include="Migrations\201603292225124_NewMigration6.Designer.cs">
       <DependentUpon>201603292225124_NewMigration6.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201603301448070_NewMigration7.cs" />
+    <Compile Include="Migrations\201603301448070_NewMigration7.Designer.cs">
+      <DependentUpon>201603301448070_NewMigration7.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603301456539_NewMigration8.cs" />
+    <Compile Include="Migrations\201603301456539_NewMigration8.Designer.cs">
+      <DependentUpon>201603301456539_NewMigration8.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603301525149_NewMigration9.cs" />
+    <Compile Include="Migrations\201603301525149_NewMigration9.Designer.cs">
+      <DependentUpon>201603301525149_NewMigration9.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Appointment.cs" />
     <Compile Include="Models\Band.cs" />
     <Compile Include="Models\Budget.cs" />
+    <Compile Include="Models\Contacts.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\EventInfoViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -279,6 +293,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\concert.jpg" />
+    <Content Include="Images\concert2.jpg" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -550,6 +566,11 @@
     <Content Include="Views\Home\AdminIndex.cshtml" />
     <Content Include="Views\Home\Calendar.cshtml" />
     <Content Include="Views\Shared\_SideBarLayout.cshtml" />
+    <Content Include="Views\Contacts\Create.cshtml" />
+    <Content Include="Views\Contacts\Delete.cshtml" />
+    <Content Include="Views\Contacts\Details.cshtml" />
+    <Content Include="Views\Contacts\Edit.cshtml" />
+    <Content Include="Views\Contacts\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -593,6 +614,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201603292225124_NewMigration6.resx">
       <DependentUpon>201603292225124_NewMigration6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603301448070_NewMigration7.resx">
+      <DependentUpon>201603301448070_NewMigration7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603301456539_NewMigration8.resx">
+      <DependentUpon>201603301456539_NewMigration8.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603301525149_NewMigration9.resx">
+      <DependentUpon>201603301525149_NewMigration9.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

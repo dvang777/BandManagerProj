@@ -33,202 +33,393 @@
             invent = invent + "," + labels[j].ToString();
         }
     }
+
+    decimal[] soldResult = ViewBag.SoldArray;
+    string sold = "";
+
+    for (int i = 0; i <= soldResult.Length - 1; ++i)
+    {
+        if (i == 0)
+        {
+            sold = sold + soldResult[i].ToString();
+        }
+        else
+        {
+            sold = sold + "," + soldResult[i].ToString();
+        }
+    }
+
+    int[] ordResult = ViewBag.OrdArray;
+    string ord = "";
+
+    for (int i = 0; i <= ordResult.Length - 1; ++i)
+    {
+        if (i == 0)
+        {
+            ord = ord + ordResult[i].ToString();
+        }
+        else
+        {
+            ord = ord + "," + ordResult[i].ToString();
+        }
+    }
+
+
+    var total = Model.Sum(a => a.TotalSold);
+
 }
 <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+<link href='https://fonts.googleapis.com/css?family=Play' rel='stylesheet' type='text/css'>
 
-
-<h2>Index</h2>
+<h2>Inventory</h2>
 
 <p>
     @Html.ActionLink("Add Inventory", "Create")
 </p>
-<table class="table" id="inv">
-    <thead>
-        <tr>
-            <th>
-                @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm })
-            </th>
-            <th>
-                @Html.ActionLink("Description", "Index", new { sortOrder = ViewBag.DescriptionSortParm })           @*DisplayNameFor(model => model.Description)*@
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Size)
-            </th>
-            <th>
-                @Html.ActionLink("Quantity", "Index", new { sortOrder = ViewBag.QuantitySortParm })  @*DisplayNameFor(model => model.Quantity)*@
-            </th>
-            @*<th>
-                    @Html.ActionLink("QuantitySold", "Index", new { sortOrder = ViewBag.QuantitySoldSortParm })
-                </th>*@
-            <th>
-                @Html.ActionLink("QuantityIncoming", "Index", new { sortOrder = ViewBag.QuantityIncomingSortParm })
-            </th>
-            <th></th>
-        </tr>
-    </thead>
 
-    @foreach (var item in Model)
-    {
-        <tbody>
+<p id="total"> @total</p><p id="rev">Total Revenue</p>
+    <table class="table" id="inv">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Size)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Quantity)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.QuantityIncoming)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
-                </td>
+                <th>
+                    @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm })
+                </th>
+                <th>
+                    @Html.ActionLink("Description", "Index", new { sortOrder = ViewBag.DescriptionSortParm })           @*DisplayNameFor(model => model.Description)*@
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Size)
+                </th>
+                <th>
+                    @Html.ActionLink("Quantity", "Index", new { sortOrder = ViewBag.QuantitySortParm })  @*DisplayNameFor(model => model.Quantity)*@
+                </th>
+                @*<th>
+                        @Html.ActionLink("QuantitySold", "Index", new { sortOrder = ViewBag.QuantitySoldSortParm })
+                    </th>*@
+                <th>
+                    @Html.ActionLink("QuantityIncoming", "Index", new { sortOrder = ViewBag.QuantityIncomingSortParm })
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SoldQuantity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    Total Sold
+                </th>
+                <th></th>
             </tr>
-        </tbody>
-    }
+        </thead>
 
-</table>
+        @foreach (var item in Model)
+        {
+            <tbody>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Size)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.QuantityIncoming)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SoldQuantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalSold)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                    </td>
+                </tr>
+            </tbody>
+        }
 
-<canvas id="myChart" width="800" height="400"></canvas>
+    </table>
 
+<h3> Quantity in Stock </h3>
+
+@*<canvas id="myBarChart" width="600" height="300"></canvas>
 <script>
+
     var result = "@quantity";
     var labels = "@invent";
+    var order = "@ord";
     var resultsArray = result.split(',');
     var labelsArray = labels.split(',');
-    var context = $("#myChart").get(0).getContext("2d");
+    var orderArray = ord.split(',');
+    var context = $("#myBarChart").get(0).getContext("2d");
     var data = {
-        labels: labelsArray, //["Tug Ntseeg S", "Tug Ntseeg M", "Tug Ntseeg L", "Tug Ntseeg XL", "Tug Ntseeg XXL"],
-
-        datasets: [{
-
-            label: "My First dataset",
-            fillColor: "rgba(220,220,220,0,2)",
-            strokeColor: "rgba(220,220,220,1)",
-            pointColor: "rgba(220,220,220,1)",
-            pointStrokeColor: "#fff",
-            pointHighlightFill: "#fff",
-            pointHighlightStroke: "rgba(220,220,220,1)",
-            data: resultsArray
-
-        }]
+        labels: labelsArray,
+        datasets: [
+            {
+                label: "My First dataset",
+                fillColor: "rgba(220,220,220,0.5)",
+                strokeColor: "rgba(220,220,220,0.8)",
+                highlightFill: "rgba(220,220,220,0.75)",
+                highlightStroke: "rgba(220,220,220,1)",
+                data: resultsArray
+            },
+            {
+                label: "My Second dataset",
+                fillColor: "rgba(151,187,205,0.5)",
+                strokeColor: "rgba(151,187,205,0.8)",
+                highlightFill: "rgba(151,187,205,0.75)",
+                highlightStroke: "rgba(151,187,205,1)",
+                data: orderArray
+            }]
     }
     var options = {
-        ///Boolean - Whether grid lines are shown across the chart
+        //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
+        scaleBeginAtZero: true,
+
+        //Boolean - Whether grid lines are shown across the chart
         scaleShowGridLines: true,
+
         //String - Colour of the grid lines
         scaleGridLineColor: "rgba(0,0,0,.05)",
+
         //Number - Width of the grid lines
         scaleGridLineWidth: 1,
-        //Boolean - Whether the line is curved between points
-        bezierCurve: true,
-        //Number - Tension of the bezier curve between points
-        bezierCurveTension: 0.4,
-        //Boolean - Whether to show a dot for each point
-        pointDot: true,
-        //Number - Radius of each point dot in pixels
-        pointDotRadius: 4,
-        //Number - Pixel width of point dot stroke
-        pointDotStrokeWidth: 1,
-        //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
-        pointHitDetectionRadius: 20,
-        //Boolean - Whether to show a stroke for datasets
-        datasetStroke: true,
-        //Number - Pixel width of dataset stroke
-        datasetStrokeWidth: 2,
-        //Boolean - Whether to fill the dataset with a colour
-        datasetFill: true,
+
+        //Boolean - Whether to show horizontal lines (except X axis)
+        scaleShowHorizontalLines: true,
+
+        //Boolean - Whether to show vertical lines (except Y axis)
+        scaleShowVerticalLines: true,
+
+        //Boolean - If there is a stroke on each bar
+        barShowStroke: true,
+
+        //Number - Pixel width of the bar stroke
+        barStrokeWidth: 2,
+
+        //Number - Spacing between each of the X value sets
+        barValueSpacing: 5,
+
+        //Number - Spacing between data sets within X values
+        barDatasetSpacing: 1,
+
+        //String - A legend template
+        legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].fillColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
 
     }
-    var myLineChart = new Chart(context).Line(data, options)
+
+    var myBarChart = new Chart(ctx).Bar(data, options);
+
+</script>*@
+    <canvas id="myChart" width="800" height="400"></canvas>
+
+    <script>
+        var result = "@quantity";
+        var labels = "@invent";
+        var resultsArray = result.split(',');
+        var labelsArray = labels.split(',');
+        var context = $("#myChart").get(0).getContext("2d");
+        var data = {
+            labels: labelsArray, //["Tug Ntseeg S", "Tug Ntseeg M", "Tug Ntseeg L", "Tug Ntseeg XL", "Tug Ntseeg XXL"],
+
+            datasets: [{
+
+                label: "My First dataset",
+                fillColor: "#821",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(220,220,220,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(220,220,220,1)",
+                data: resultsArray
+
+            }]
+        }
+        var options = {
+            ///Boolean - Whether grid lines are shown across the chart
+            scaleShowGridLines: true,
+            //String - Colour of the grid lines
+            scaleGridLineColor: "rgba(0,0,0,.05)",
+            //Number - Width of the grid lines
+            scaleGridLineWidth: 1,
+            //Boolean - Whether the line is curved between points
+            bezierCurve: true,
+            //Number - Tension of the bezier curve between points
+            bezierCurveTension: 0.4,
+            //Boolean - Whether to show a dot for each point
+            pointDot: true,
+            //Number - Radius of each point dot in pixels
+            pointDotRadius: 4,
+            //Number - Pixel width of point dot stroke
+            pointDotStrokeWidth: 1,
+            //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
+            pointHitDetectionRadius: 20,
+            //Boolean - Whether to show a stroke for datasets
+            datasetStroke: true,
+            //Number - Pixel width of dataset stroke
+            datasetStrokeWidth: 2,
+            //Boolean - Whether to fill the dataset with a colour
+            datasetFill: true,
+
+        }
+        var myLineChart = new Chart(context).Line(data, options)
 
 
-</script>
-<script type="text/javascript">
-    $(function () {
-        $("table.tablesorter").tablesorter({ widthFixed: true, sortList: [[0, 0]] })
-        .tablesorterPager({ container: $("#pager"), size: $(".pagesize option:selected").val() });
-    });
-</script>
-@*<script type='text/javascript'>
+    </script>
+<div></div>
+<h3>Total Revenue Sold per item</h3>
+    <canvas id="soldChart" width="800" height="400"></canvas>
+    <script>
+        var soldResult = "@sold";
+        var label = "@invent";
+        var soldResultsArray = soldResult.split(',');
+        var labelArray = label.split(',');
+        var context = $("#soldChart").get(0).getContext("2d");
+        var data = {
+            labels: labelArray, //["Tug Ntseeg S", "Tug Ntseeg M", "Tug Ntseeg L", "Tug Ntseeg XL", "Tug Ntseeg XXL"],
 
+            datasets: [{
+
+                label: "My First dataset",
+                fillColor: "#840",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(220,220,220,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(220,220,220,1)",
+                data: soldResultsArray
+
+            }]
+        }
+        var options = {
+            ///Boolean - Whether grid lines are shown across the chart
+            scaleShowGridLines: true,
+            //String - Colour of the grid lines
+            scaleGridLineColor: "rgba(0,0,0,.05)",
+            //Number - Width of the grid lines
+            scaleGridLineWidth: 1,
+            //Boolean - Whether the line is curved between points
+            bezierCurve: true,
+            //Number - Tension of the bezier curve between points
+            bezierCurveTension: 0.4,
+            //Boolean - Whether to show a dot for each point
+            pointDot: true,
+            //Number - Radius of each point dot in pixels
+            pointDotRadius: 4,
+            //Number - Pixel width of point dot stroke
+            pointDotStrokeWidth: 1,
+            //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
+            pointHitDetectionRadius: 20,
+            //Boolean - Whether to show a stroke for datasets
+            datasetStroke: true,
+            //Number - Pixel width of dataset stroke
+            datasetStrokeWidth: 2,
+            //Boolean - Whether to fill the dataset with a colour
+            datasetFill: true,
+
+        }
+        var myLineChart = new Chart(context).Line(data, options)
+
+
+    </script>
+    <script type="text/javascript">
         $(function () {
-            // Selectors for future use
-            var myTable = "#inv";
-            var myTableBody = myTable + " tbody";
-            var myTableRows = myTableBody + " tr";
-            var myTableColumn = myTable + " th";
+            $("table.tablesorter").tablesorter({ widthFixed: true, sortList: [[0, 0]] })
+            .tablesorterPager({ container: $("#pager"), size: $(".pagesize option:selected").val() });
+        });
+    </script>
+    @*<script type='text/javascript'>
 
-            // Starting table state
-            function initTable() {
+            $(function () {
+                // Selectors for future use
+                var myTable = "#inv";
+                var myTableBody = myTable + " tbody";
+                var myTableRows = myTableBody + " tr";
+                var myTableColumn = myTable + " th";
 
-                // Increment the table width for sort icon support
-                $(myTableColumn).each(function () {
-                    var width = $(this).width();
-                    $(this).width(width + 40);
-                });
+                // Starting table state
+                function initTable() {
 
-                // Set the first column as sorted ascending
-                $(myTableColumn).eq(0).addClass("sorted-asc");
+                    // Increment the table width for sort icon support
+                    $(myTableColumn).each(function () {
+                        var width = $(this).width();
+                        $(this).width(width + 40);
+                    });
 
-                //Sort the table using the current sorting order
-                sortTable($(myTable), 0, "asc");
+                    // Set the first column as sorted ascending
+                    $(myTableColumn).eq(0).addClass("sorted-asc");
 
-            }
+                    //Sort the table using the current sorting order
+                    sortTable($(myTable), 0, "asc");
 
-            // Table starting state
-            initTable();
-
-            // Table sorting function
-            function sortTable(table, column, order) {
-                var asc = order === 'asc';
-                var tbody = table.find('tbody');
-
-                // Sort the table using a custom sorting function by switching
-                // the rows order, then append them to the table body
-                tbody.find('tr').sort(function (a, b) {
-                    if (asc) {
-                        return $('td:eq(' + column + ')', a).text()
-                            .localeCompare($('td:eq(' + column + ')', b).text());
-                    } else {
-                        return $('td:eq(' + column + ')', b).text()
-                            .localeCompare($('td:eq(' + column + ')', a).text());
-                    }
-                }).appendTo(tbody);
-
-            }
-
-            // Heading click
-            $(myTableColumn).click(function () {
-
-                // Remove the sort classes for all the column, but not the first
-                $(myTableColumn).not($(this)).removeClass("sorted-asc sorted-desc");
-
-                // Set or change the sort direction
-                if ($(this).hasClass("sorted-asc") || $(this).hasClass("sorted-desc")) {
-                    $(this).toggleClass("sorted-asc sorted-desc");
-                } else {
-                    $(this).addClass("sorted-asc");
                 }
 
-                //Sort the table using the current sorting order
-                sortTable($(myTable),
-                            $(this).index(),
-                            $(this).hasClass("sorted-asc") ? "asc" : "desc");
+                // Table starting state
+                initTable();
+
+                // Table sorting function
+                function sortTable(table, column, order) {
+                    var asc = order === 'asc';
+                    var tbody = table.find('tbody');
+
+                    // Sort the table using a custom sorting function by switching
+                    // the rows order, then append them to the table body
+                    tbody.find('tr').sort(function (a, b) {
+                        if (asc) {
+                            return $('td:eq(' + column + ')', a).text()
+                                .localeCompare($('td:eq(' + column + ')', b).text());
+                        } else {
+                            return $('td:eq(' + column + ')', b).text()
+                                .localeCompare($('td:eq(' + column + ')', a).text());
+                        }
+                    }).appendTo(tbody);
+
+                }
+
+                // Heading click
+                $(myTableColumn).click(function () {
+
+                    // Remove the sort classes for all the column, but not the first
+                    $(myTableColumn).not($(this)).removeClass("sorted-asc sorted-desc");
+
+                    // Set or change the sort direction
+                    if ($(this).hasClass("sorted-asc") || $(this).hasClass("sorted-desc")) {
+                        $(this).toggleClass("sorted-asc sorted-desc");
+                    } else {
+                        $(this).addClass("sorted-asc");
+                    }
+
+                    //Sort the table using the current sorting order
+                    sortTable($(myTable),
+                                $(this).index(),
+                                $(this).hasClass("sorted-asc") ? "asc" : "desc");
+
+                });
 
             });
 
-        });
-
-    </script>*@
-<script src="@Url.Content("~/Scripts/jquery-1.4.4.min.js")" type="text/javascript"></script>
-<script src="@Url.Content("~/Scripts/jquery.tablesorter.js")" type="text/javascript"></script>
-<script src="@Url.Content("~/Scripts/jquery.tablesorter.pager.js")" type="text/javascript"></script>
+        </script>*@
+    <style>
+        #total {
+            text-align: center;
+            font-family: 'Play', sans-serif;
+            font-size: xx-large;
+        }
+        #rev{
+            text-align: center;
+        }
+    </style>
+    <script src="@Url.Content("~/Scripts/jquery-1.4.4.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.tablesorter.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.tablesorter.pager.js")" type="text/javascript"></script>

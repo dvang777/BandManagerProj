@@ -20,9 +20,18 @@ namespace BandManager.Controllers
         {
             var userId = User.Identity.GetUserId();
             var band = db.Bands.Where(a => a.ID == userId).Single();
-            var budget = db.Budgets.Select(b => b).Single();
-            budget.Total = budget.Total + budget.TransactionAmount;
+            var budget = db.Budgets.Where(b=> b.BandID == band.ID).Select(b => b).FirstOrDefault();
 
+            if (budget.Name.ToLower() == "deposit")
+            {
+                budget.Total = budget.Total + budget.TransactionAmount;
+            }
+            else if (budget.Name.ToLower() == "expense")
+            {
+                budget.Total = budget.Total - budget.TransactionAmount;
+            }
+
+            ViewBag.Total = budget.Total;
             var budgets = db.Budgets.Include(b => b.band);
             return View(budgets.ToList());
         }
@@ -58,17 +67,22 @@ namespace BandManager.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Total,TransactionDescription,TransactionAmount,TransActionDate,DepositAmount,DepositDescription,DepositDate,BandID")] Budget budget)
+        public ActionResult Create([Bind(Include = "ID,Total,TransactionDescription,TransactionAmount,TransActionDate,Name,BandID")] Budget budget)
         {
+            //Budget budgets = new Budget();
+            //var band = db.Bands.Select(a => a.ID).ToString();
+            //var budgets = db.Budgets.Select(b => b).Single();
             if (ModelState.IsValid)
             {
                 if (budget.Name.ToLower() == "expense")
                 {
                     budget.TransactionAmount = -budget.TransactionAmount;
                     budget.Total = budget.Total - budget.TransactionAmount;
+
                 }
                 else if (budget.Name.ToLower() == "deposit")
                 {
+                    budget.TransactionAmount = + budget.TransactionAmount;
                     budget.Total = budget.Total + budget.TransactionAmount;
                 }
                 db.Budgets.Add(budget);
@@ -101,7 +115,7 @@ namespace BandManager.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Total,TransactionDescription,TransactionAmount,TransActionDate,DepositAmount,DepositDescription,DepositDate,BandID")] Budget budget)
+        public ActionResult Edit([Bind(Include = "ID,Total,TransactionDescription,TransactionAmount,TransActionDate,Name,BandID")] Budget budget)
         {
             if (ModelState.IsValid)
             {

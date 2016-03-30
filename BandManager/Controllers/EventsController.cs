@@ -52,6 +52,16 @@ namespace BandManager.Controllers
                 //}
             }).ToList();
 
+            var sold = db.Events.Select(a => a.TotalItemSold).ToArray();
+            var rev = db.Events.Select(b => b.TotalRevenue).ToArray();
+            var Evt = db.Events.Select(c => c.Name).ToList();
+            var att = db.Events.Select(d => d.Attendance).ToArray();
+
+            ViewBag.SoldArray = sold;
+            ViewBag.RevArray = rev;
+            ViewBag.EvtArray = Evt;
+            ViewBag.AttArray = att;
+
             return View(evt.ToList());
         }
 
@@ -81,7 +91,7 @@ namespace BandManager.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name,Begin,End,City,State,Attendance")] Event @event)
+        public ActionResult Create([Bind(Include = "ID,Name,Begin,End,City,State,Attendance,TotalItemSold,TotalRevenue")] Event @event)
         {
             if (ModelState.IsValid)
             {
@@ -117,7 +127,7 @@ namespace BandManager.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Name,Begin,End,City,State,Attendance")] Event @event)
+        public ActionResult Edit([Bind(Include = "ID,Name,Begin,End,City,State,Attendance,TotalItemSold,TotalRevenue")] Event @event)
         {
             if (ModelState.IsValid)
             {

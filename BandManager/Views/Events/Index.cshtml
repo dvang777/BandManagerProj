@@ -3,9 +3,68 @@
 @{
     ViewBag.Title = "View";
     Layout = "~/Views/Shared/_SideBarLayout.cshtml";
+
+    int[] soldResult = ViewBag.SoldArray;
+    string sold = "";
+
+    for (int i = 0; i <= soldResult.Length - 1; ++i)
+    {
+        if (i == 0)
+        {
+            sold = sold + soldResult[i].ToString();
+        }
+        else
+        {
+            sold = sold + "," + soldResult[i].ToString();
+        }
+    }
+    decimal[] revResult = ViewBag.RevArray;
+    string rev = "";
+
+    for (int i = 0; i <= revResult.Length - 1; ++i)
+    {
+        if (i == 0)
+        {
+            rev = rev + revResult[i].ToString();
+        }
+        else
+        {
+            rev = rev + "," + revResult[i].ToString();
+        }
+    }
+
+    double[] attResult = ViewBag.AttArray;
+    string att = "";
+
+    for (int i = 0; i <= attResult.Length - 1; ++i)
+    {
+        if (i == 0)
+        {
+            att = att + attResult[i].ToString();
+        }
+        else
+        {
+            att = att + "," + attResult[i].ToString();
+        }
+    }
+
+    var labels = ViewBag.EvtArray;
+    string Event = "";
+
+    for (int j = 0; j <= labels.Count - 1; ++j)
+    {
+        if (j == 0)
+        {
+            Event = Event + labels[j].ToString();
+        }
+        else
+        {
+            Event = Event + "," + labels[j].ToString();
+        }
+    }
 }
 
-<h2>View</h2>
+<h2>Events</h2>
 
 <p>
     @Html.ActionLink("Add Event Info", "Create")
@@ -31,6 +90,12 @@
         <th>
             @Html.DisplayNameFor(model => model.Attendance)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalItemSold)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalRevenue)
+        </th>
     </tr>
     @foreach (var item in Model)
     {
@@ -52,6 +117,17 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Attendance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalItemSold)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalRevenue)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
             </td>
         </tr>
     }
@@ -153,3 +229,174 @@
 }*@
 
 </table>
+
+<h3>Items Sold</h3>
+<canvas id="myChart" width="800" height="400"></canvas>
+
+    <script>
+        var result = "@sold";
+        var labels = "@Event";
+        var resultsArray = result.split(',');
+        var labelsArray = labels.split(',');
+        var context = $("#myChart").get(0).getContext("2d");
+        var data = {
+            labels: labelsArray, //["Tug Ntseeg S", "Tug Ntseeg M", "Tug Ntseeg L", "Tug Ntseeg XL", "Tug Ntseeg XXL"],
+
+            datasets: [{
+
+                label: "My First dataset",
+                fillColor: "rgba(220,220,220,0,2)",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(220,220,220,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(220,220,220,1)",
+                data: resultsArray
+
+            }]
+        }
+        var options = {
+            ///Boolean - Whether grid lines are shown across the chart
+            scaleShowGridLines: true,
+            //String - Colour of the grid lines
+            scaleGridLineColor: "rgba(0,0,0,.05)",
+            //Number - Width of the grid lines
+            scaleGridLineWidth: 1,
+            //Boolean - Whether the line is curved between points
+            bezierCurve: true,
+            //Number - Tension of the bezier curve between points
+            bezierCurveTension: 0.4,
+            //Boolean - Whether to show a dot for each point
+            pointDot: true,
+            //Number - Radius of each point dot in pixels
+            pointDotRadius: 4,
+            //Number - Pixel width of point dot stroke
+            pointDotStrokeWidth: 1,
+            //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
+            pointHitDetectionRadius: 20,
+            //Boolean - Whether to show a stroke for datasets
+            datasetStroke: true,
+            //Number - Pixel width of dataset stroke
+            datasetStrokeWidth: 2,
+            //Boolean - Whether to fill the dataset with a colour
+            datasetFill: true,
+
+        }
+        var myLineChart = new Chart(context).Line(data, options)
+
+
+    </script>
+
+<h3>Revenue</h3>
+<canvas id="myChart1" width="800" height="400"></canvas>
+
+<script>
+        var Solds = "@rev";
+        var label = "@Event";
+        var SoldsArray = Solds.split(',');
+        var labelArray = label.split(',');
+        var context = $("#myChart1").get(0).getContext("2d");
+        var data = {
+            labels: labelArray, //["Tug Ntseeg S", "Tug Ntseeg M", "Tug Ntseeg L", "Tug Ntseeg XL", "Tug Ntseeg XXL"],
+
+            datasets: [{
+
+                label: "My First dataset",
+                fillColor: "#0bf",
+                strokeColor: "#0bf",
+                pointColor: "rgba(100,100,100,1)",
+                pointStrokeColor: "#0bf",
+                pointHighlightFill: "#0bf",
+                pointHighlightStroke: "rgba(100,100,100,1)",
+                data: SoldsArray
+
+            }]
+        }
+        var options = {
+            ///Boolean - Whether grid lines are shown across the chart
+            scaleShowGridLines: true,
+            //String - Colour of the grid lines
+            scaleGridLineColor: "rgba(0,0,0,.05)",
+            //Number - Width of the grid lines
+            scaleGridLineWidth: 1,
+            //Boolean - Whether the line is curved between points
+            bezierCurve: true,
+            //Number - Tension of the bezier curve between points
+            bezierCurveTension: 0.4,
+            //Boolean - Whether to show a dot for each point
+            pointDot: true,
+            //Number - Radius of each point dot in pixels
+            pointDotRadius: 4,
+            //Number - Pixel width of point dot stroke
+            pointDotStrokeWidth: 1,
+            //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
+            pointHitDetectionRadius: 20,
+            //Boolean - Whether to show a stroke for datasets
+            datasetStroke: true,
+            //Number - Pixel width of dataset stroke
+            datasetStrokeWidth: 2,
+            //Boolean - Whether to fill the dataset with a colour
+            datasetFill: true,
+
+        }
+        var myLineChart = new Chart(context).Line(data, options)
+
+
+</script>
+
+<h3>Attendance</h3>
+<canvas id="myChart2" width="800" height="400"></canvas>
+
+<script>
+        var atten = "@att";
+        var lab = "@Event";
+        var attenArray = atten.split(',');
+        var labArray = lab.split(',');
+        var context = $("#myChart2").get(0).getContext("2d");
+        var data = {
+            labels: labArray, //["Tug Ntseeg S", "Tug Ntseeg M", "Tug Ntseeg L", "Tug Ntseeg XL", "Tug Ntseeg XXL"],
+
+            datasets: [{
+
+                label: "My First dataset",
+                fillColor: "#48f",
+                strokeColor: "#fff",
+                pointColor: "#fff",
+                pointStrokeColor: "#48f",
+                pointHighlightFill: "#48f",
+                pointHighlightStroke: "#48f",
+                data: attenArray
+
+            }]
+        }
+        var options = {
+            ///Boolean - Whether grid lines are shown across the chart
+            scaleShowGridLines: true,
+            //String - Colour of the grid lines
+            scaleGridLineColor: "rgba(0,0,0,.05)",
+            //Number - Width of the grid lines
+            scaleGridLineWidth: 1,
+            //Boolean - Whether the line is curved between points
+            bezierCurve: true,
+            //Number - Tension of the bezier curve between points
+            bezierCurveTension: 0.4,
+            //Boolean - Whether to show a dot for each point
+            pointDot: true,
+            //Number - Radius of each point dot in pixels
+            pointDotRadius: 4,
+            //Number - Pixel width of point dot stroke
+            pointDotStrokeWidth: 1,
+            //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
+            pointHitDetectionRadius: 20,
+            //Boolean - Whether to show a stroke for datasets
+            datasetStroke: true,
+            //Number - Pixel width of dataset stroke
+            datasetStrokeWidth: 2,
+            //Boolean - Whether to fill the dataset with a colour
+            datasetFill: true,
+
+        }
+        var myLineChart = new Chart(context).Line(data, options)
+
+
+</script>

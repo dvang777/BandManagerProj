@@ -56,11 +56,13 @@ namespace BandManager.Controllers
             }
             var quantity = db.Inventories.Select(x => x.Quantity).ToArray();
             var invent = db.Inventories.Select(z => z.Name).ToList();
-            //int[] test = { 3, 5, 6, 7, 8, 10, 11 };
+            var sold = db.Inventories.Select(a => a.TotalSold).ToArray();
+            var ord = db.Inventories.Select(b => b.QuantityIncoming).ToArray();
 
-            //ViewBag.intArray = test;
+            ViewBag.SoldArray = sold;
             ViewBag.QuantityArray = quantity;
             ViewBag.InventArray = invent;
+            ViewBag.OrdArray = ord;
             return View(inv.ToList());
         }
 
@@ -94,7 +96,7 @@ namespace BandManager.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name,Description,Size,Quantity,BandId,QuantitySold,QuantityIncoming,OrderedYTD")] Inventory inventory)
+        public ActionResult Create([Bind(Include = "ID,Name,Description,Size,Quantity,BandId,SoldQuantity,Price,TotalSold,QuantityIncoming,OrderedYTD")] Inventory inventory)
         {
             if (ModelState.IsValid)
             {
@@ -130,7 +132,7 @@ namespace BandManager.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Name,Description,Size,Quantity,BandId,QuantitySold,QuantityIncoming,OrderedYTD")] Inventory inventory)
+        public ActionResult Edit([Bind(Include = "ID,Name,Description,Size,Quantity,BandId,SoldQuantity,Price,TotalSold,QuantityIncoming,OrderedYTD")] Inventory inventory)
         {
             if (ModelState.IsValid)
             {
