@@ -48,18 +48,18 @@
         }
     }
 
-    var labels = ViewBag.EvtArray;
+    var Elabels = ViewBag.EvtArray;
     string Event = "";
 
-    for (int j = 0; j <= labels.Count - 1; ++j)
+    for (int j = 0; j <= Elabels.Count - 1; ++j)
     {
         if (j == 0)
         {
-            Event = Event + labels[j].ToString();
+            Event = Event + Elabels[j].ToString();
         }
         else
         {
-            Event = Event + "," + labels[j].ToString();
+            Event = Event + "," + Elabels[j].ToString();
         }
     }
 }
@@ -231,16 +231,16 @@
 </table>
 
 <h3>Items Sold</h3>
-<canvas id="myChart" width="800" height="400"></canvas>
+<canvas id="myChart0" width="800" height="400"></canvas>
 
     <script>
-        var result = "@sold";
-        var labels = "@Event";
-        var resultsArray = result.split(',');
-        var labelsArray = labels.split(',');
-        var context = $("#myChart").get(0).getContext("2d");
+        var eresult = "@sold";
+        var elabels = "@Event";
+        var eresultsArray = eresult.split(',');
+        var elabelsArray = elabels.split(',');
+        var context = $("#myChart0").get(0).getContext("2d");
         var data = {
-            labels: labelsArray, //["Tug Ntseeg S", "Tug Ntseeg M", "Tug Ntseeg L", "Tug Ntseeg XL", "Tug Ntseeg XXL"],
+            labels: elabelsArray, //["Tug Ntseeg S", "Tug Ntseeg M", "Tug Ntseeg L", "Tug Ntseeg XL", "Tug Ntseeg XXL"],
 
             datasets: [{
 
@@ -251,7 +251,7 @@
                 pointStrokeColor: "#fff",
                 pointHighlightFill: "#fff",
                 pointHighlightStroke: "rgba(220,220,220,1)",
-                data: resultsArray
+                data: eresultsArray
 
             }]
         }
@@ -292,12 +292,12 @@
 
 <script>
         var Solds = "@rev";
-        var label = "@Event";
+        var labelE = "@Event";
         var SoldsArray = Solds.split(',');
-        var labelArray = label.split(',');
+        var labelEArray = labelE.split(',');
         var context = $("#myChart1").get(0).getContext("2d");
         var data = {
-            labels: labelArray, //["Tug Ntseeg S", "Tug Ntseeg M", "Tug Ntseeg L", "Tug Ntseeg XL", "Tug Ntseeg XXL"],
+            labels: labelEArray, //["Tug Ntseeg S", "Tug Ntseeg M", "Tug Ntseeg L", "Tug Ntseeg XL", "Tug Ntseeg XXL"],
 
             datasets: [{
 

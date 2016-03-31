@@ -54,7 +54,7 @@ namespace BandManager.Controllers
                     break;
                     
             }
-            var quantity = db.Inventories.Select(x => x.Quantity).ToArray();
+            var quantity = db.Inventories.Select(x => x.SoldQuantity).ToArray();
             var invent = db.Inventories.Select(z => z.Name).ToList();
             var sold = db.Inventories.Select(a => a.TotalSold).ToArray();
             var ord = db.Inventories.Select(b => b.QuantityIncoming).ToArray();
@@ -66,10 +66,6 @@ namespace BandManager.Controllers
             return View(inv.ToList());
         }
 
-        public ActionResult AdminView()
-        {
-            return View();
-        }
         // GET: Inventories/Details/5
         public ActionResult Details(int? id)
         {

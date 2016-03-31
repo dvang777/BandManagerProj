@@ -1,0 +1,464 @@
+﻿@model IEnumerable<BandManager.Models.Budget>
+@{
+    ViewBag.Title = "DashBoard";
+    Layout = "~/Views/Shared/_SideBarLayout.cshtml";
+    int[] result = ViewBag.QuantityArray;
+    string quantity = "";
+
+    for (int i = 0; i <= result.Length - 1; ++i)
+    {
+        if (i == 0)
+        {
+            quantity = quantity + result[i].ToString();
+        }
+        else
+        {
+            quantity = quantity + "," + result[i].ToString();
+        }
+    }
+
+    var labels = ViewBag.InventArray;
+    string invent = "";
+
+    for (int j = 0; j <= labels.Count - 1; ++j)
+    {
+        if (j == 0)
+        {
+            invent = invent + labels[j].ToString();
+        }
+        else
+        {
+            invent = invent + "," + labels[j].ToString();
+        }
+    }
+
+    decimal[] InvSoldResult = ViewBag.InvSoldArray;
+    string Isold = "";
+
+    for (int i = 0; i <= InvSoldResult.Length - 1; ++i)
+    {
+        if (i == 0)
+        {
+            Isold = Isold + InvSoldResult[i].ToString();
+        }
+        else
+        {
+            Isold = Isold + "," + InvSoldResult[i].ToString();
+        }
+    }
+
+    int[] ordResult = ViewBag.OrdArray;
+    string ord = "";
+
+    for (int i = 0; i <= ordResult.Length - 1; ++i)
+    {
+        if (i == 0)
+        {
+            ord = ord + ordResult[i].ToString();
+        }
+        else
+        {
+            ord = ord + "," + ordResult[i].ToString();
+        }
+    }
+    int[] soldResult = ViewBag.SoldArray;
+    string sold = "";
+
+    for (int i = 0; i <= soldResult.Length - 1; ++i)
+    {
+        if (i == 0)
+        {
+            sold = sold + soldResult[i].ToString();
+        }
+        else
+        {
+            sold = sold + "," + soldResult[i].ToString();
+        }
+    }
+    decimal[] revResult = ViewBag.RevArray;
+    string rev = "";
+
+    for (int i = 0; i <= revResult.Length - 1; ++i)
+    {
+        if (i == 0)
+        {
+            rev = rev + revResult[i].ToString();
+        }
+        else
+        {
+            rev = rev + "," + revResult[i].ToString();
+        }
+    }
+
+    double[] attResult = ViewBag.AttArray;
+    string att = "";
+
+    for (int i = 0; i <= attResult.Length - 1; ++i)
+    {
+        if (i == 0)
+        {
+            att = att + attResult[i].ToString();
+        }
+        else
+        {
+            att = att + "," + attResult[i].ToString();
+        }
+    }
+
+    var Elabels = ViewBag.EvtArray;
+    string Event = "";
+
+    for (int j = 0; j <= Elabels.Count - 1; ++j)
+    {
+        if (j == 0)
+        {
+            Event = Event + Elabels[j].ToString();
+        }
+        else
+        {
+            Event = Event + "," + Elabels[j].ToString();
+        }
+    }
+
+
+}
+<link href='https://fonts.googleapis.com/css?family=Raleway:600italic' rel='stylesheet' type='text/css'>
+
+<div class="jumbotron" id="home">
+    <h1 id="head">Band Manager</h1>
+    <h3 class="lead" id="head">Dashboard</h3>
+    <p><a onclick='window.location="@Url.Action("Login","Account")";' class="btn btn-primary btn-lg">Log In &raquo;</a></p>
+</div>
+
+<table>
+    <tr>
+        <th>
+            <h3>Total Merchandise Sold</h3>
+        </th>
+        <th>
+            <h3>Total Revenue Sold per item</h3>
+        </th>
+        <th>
+            <h3>Items Sold at Event</h3>
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <canvas id="myChart" width="425" height="225"></canvas>
+        </td>
+        <td>
+            <canvas id="soldChart" width="425" height="225"></canvas>
+        </td>
+        <td>
+            <canvas id="myChart0" width="425" height="225"></canvas>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <h3>Revenue at each event</h3>
+        </th>
+        <th>
+            <h3>Attendance at each event</h3>
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <canvas id="myChart1" width="575" height="275"></canvas>
+        </td>
+        <td>
+            <canvas id="myChart2" width="575" height="275"></canvas>
+        </td>
+    </tr>
+</table>
+
+
+<script>
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<script>
+    var result = "@quantity";
+    var labels = "@invent";
+    var resultsArray = result.split(',');
+    var labelsArray = labels.split(',');
+    var context = $("#myChart").get(0).getContext("2d");
+    var data = {
+        labels: labelsArray, //["Tug Ntseeg S", "Tug Ntseeg M", "Tug Ntseeg L", "Tug Ntseeg XL", "Tug Ntseeg XXL"],
+
+        datasets: [{
+
+            label: "My First dataset",
+            fillColor: "#821",
+            strokeColor: "rgba(220,220,220,1)",
+            pointColor: "rgba(220,220,220,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(220,220,220,1)",
+            data: resultsArray
+
+        }]
+    }
+    var options = {
+        ///Boolean - Whether grid lines are shown across the chart
+        scaleShowGridLines: true,
+        //String - Colour of the grid lines
+        scaleGridLineColor: "rgba(0,0,0,.05)",
+        //Number - Width of the grid lines
+        scaleGridLineWidth: 1,
+        //Boolean - Whether the line is curved between points
+        bezierCurve: true,
+        //Number - Tension of the bezier curve between points
+        bezierCurveTension: 0.4,
+        //Boolean - Whether to show a dot for each point
+        pointDot: true,
+        //Number - Radius of each point dot in pixels
+        pointDotRadius: 4,
+        //Number - Pixel width of point dot stroke
+        pointDotStrokeWidth: 1,
+        //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
+        pointHitDetectionRadius: 20,
+        //Boolean - Whether to show a stroke for datasets
+        datasetStroke: true,
+        //Number - Pixel width of dataset stroke
+        datasetStrokeWidth: 2,
+        //Boolean - Whether to fill the dataset with a colour
+        datasetFill: true,
+
+    }
+    var myLineChart = new Chart(context).Line(data, options)
+
+</script>
+<script>
+    var soldResult = "@Isold";
+    var label = "@invent";
+    var soldResultsArray = soldResult.split(',');
+    var labelArray = label.split(',');
+    var context = $("#soldChart").get(0).getContext("2d");
+    var data = {
+        labels: labelArray, //["Tug Ntseeg S", "Tug Ntseeg M", "Tug Ntseeg L", "Tug Ntseeg XL", "Tug Ntseeg XXL"],
+
+        datasets: [{
+
+            label: "My First dataset",
+            fillColor: "#840",
+            strokeColor: "rgba(220,220,220,1)",
+            pointColor: "rgba(220,220,220,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(220,220,220,1)",
+            data: soldResultsArray
+
+        }]
+    }
+    var options = {
+        ///Boolean - Whether grid lines are shown across the chart
+        scaleShowGridLines: true,
+        //String - Colour of the grid lines
+        scaleGridLineColor: "rgba(0,0,0,.05)",
+        //Number - Width of the grid lines
+        scaleGridLineWidth: 1,
+        //Boolean - Whether the line is curved between points
+        bezierCurve: true,
+        //Number - Tension of the bezier curve between points
+        bezierCurveTension: 0.4,
+        //Boolean - Whether to show a dot for each point
+        pointDot: true,
+        //Number - Radius of each point dot in pixels
+        pointDotRadius: 4,
+        //Number - Pixel width of point dot stroke
+        pointDotStrokeWidth: 1,
+        //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
+        pointHitDetectionRadius: 20,
+        //Boolean - Whether to show a stroke for datasets
+        datasetStroke: true,
+        //Number - Pixel width of dataset stroke
+        datasetStrokeWidth: 2,
+        //Boolean - Whether to fill the dataset with a colour
+        datasetFill: true,
+
+    }
+    var myLineChart = new Chart(context).Line(data, options)
+
+
+</script>
+
+<script>
+    var eresult = "@sold";
+    var elabels = "@Event";
+    var eresultsArray = eresult.split(',');
+    var elabelsArray = elabels.split(',');
+    var context = $("#myChart0").get(0).getContext("2d");
+    var data = {
+        labels: elabelsArray, //["Tug Ntseeg S", "Tug Ntseeg M", "Tug Ntseeg L", "Tug Ntseeg XL", "Tug Ntseeg XXL"],
+
+        datasets: [{
+
+            label: "My First dataset",
+            fillColor: "rgba(220,220,220,0,2)",
+            strokeColor: "rgba(220,220,220,1)",
+            pointColor: "rgba(220,220,220,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(220,220,220,1)",
+            data: eresultsArray
+
+        }]
+    }
+    var options = {
+        ///Boolean - Whether grid lines are shown across the chart
+        scaleShowGridLines: true,
+        //String - Colour of the grid lines
+        scaleGridLineColor: "rgba(0,0,0,.05)",
+        //Number - Width of the grid lines
+        scaleGridLineWidth: 1,
+        //Boolean - Whether the line is curved between points
+        bezierCurve: true,
+        //Number - Tension of the bezier curve between points
+        bezierCurveTension: 0.4,
+        //Boolean - Whether to show a dot for each point
+        pointDot: true,
+        //Number - Radius of each point dot in pixels
+        pointDotRadius: 4,
+        //Number - Pixel width of point dot stroke
+        pointDotStrokeWidth: 1,
+        //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
+        pointHitDetectionRadius: 20,
+        //Boolean - Whether to show a stroke for datasets
+        datasetStroke: true,
+        //Number - Pixel width of dataset stroke
+        datasetStrokeWidth: 2,
+        //Boolean - Whether to fill the dataset with a colour
+        datasetFill: true,
+
+    }
+    var myLineChart = new Chart(context).Line(data, options)
+
+
+</script>
+
+<script>
+    var Solds = "@rev";
+    var labelE = "@Event";
+    var SoldsArray = Solds.split(',');
+    var labelEArray = labelE.split(',');
+    var context = $("#myChart1").get(0).getContext("2d");
+    var data = {
+        labels: labelEArray, //["Tug Ntseeg S", "Tug Ntseeg M", "Tug Ntseeg L", "Tug Ntseeg XL", "Tug Ntseeg XXL"],
+
+        datasets: [{
+
+            label: "My First dataset",
+            fillColor: "#0bf",
+            strokeColor: "#0bf",
+            pointColor: "rgba(100,100,100,1)",
+            pointStrokeColor: "#0bf",
+            pointHighlightFill: "#0bf",
+            pointHighlightStroke: "rgba(100,100,100,1)",
+            data: SoldsArray
+
+        }]
+    }
+    var options = {
+        ///Boolean - Whether grid lines are shown across the chart
+        scaleShowGridLines: true,
+        //String - Colour of the grid lines
+        scaleGridLineColor: "rgba(0,0,0,.05)",
+        //Number - Width of the grid lines
+        scaleGridLineWidth: 1,
+        //Boolean - Whether the line is curved between points
+        bezierCurve: true,
+        //Number - Tension of the bezier curve between points
+        bezierCurveTension: 0.4,
+        //Boolean - Whether to show a dot for each point
+        pointDot: true,
+        //Number - Radius of each point dot in pixels
+        pointDotRadius: 4,
+        //Number - Pixel width of point dot stroke
+        pointDotStrokeWidth: 1,
+        //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
+        pointHitDetectionRadius: 20,
+        //Boolean - Whether to show a stroke for datasets
+        datasetStroke: true,
+        //Number - Pixel width of dataset stroke
+        datasetStrokeWidth: 2,
+        //Boolean - Whether to fill the dataset with a colour
+        datasetFill: true,
+
+    }
+    var myLineChart = new Chart(context).Line(data, options)
+
+
+</script>
+
+<script>
+    var atten = "@att";
+    var lab = "@Event";
+    var attenArray = atten.split(',');
+    var labArray = lab.split(',');
+    var context = $("#myChart2").get(0).getContext("2d");
+    var data = {
+        labels: labArray, //["Tug Ntseeg S", "Tug Ntseeg M", "Tug Ntseeg L", "Tug Ntseeg XL", "Tug Ntseeg XXL"],
+
+        datasets: [{
+
+            label: "My First dataset",
+            fillColor: "#48f",
+            strokeColor: "#fff",
+            pointColor: "#fff",
+            pointStrokeColor: "#48f",
+            pointHighlightFill: "#48f",
+            pointHighlightStroke: "#48f",
+            data: attenArray
+
+        }]
+    }
+    var options = {
+        ///Boolean - Whether grid lines are shown across the chart
+        scaleShowGridLines: true,
+        //String - Colour of the grid lines
+        scaleGridLineColor: "rgba(0,0,0,.05)",
+        //Number - Width of the grid lines
+        scaleGridLineWidth: 1,
+        //Boolean - Whether the line is curved between points
+        bezierCurve: true,
+        //Number - Tension of the bezier curve between points
+        bezierCurveTension: 0.4,
+        //Boolean - Whether to show a dot for each point
+        pointDot: true,
+        //Number - Radius of each point dot in pixels
+        pointDotRadius: 4,
+        //Number - Pixel width of point dot stroke
+        pointDotStrokeWidth: 1,
+        //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
+        pointHitDetectionRadius: 20,
+        //Boolean - Whether to show a stroke for datasets
+        datasetStroke: true,
+        //Number - Pixel width of dataset stroke
+        datasetStrokeWidth: 2,
+        //Boolean - Whether to fill the dataset with a colour
+        datasetFill: true,
+
+    }
+    var myLineChart = new Chart(context).Line(data, options)
+</script>
+
+
+<style>
+    #head {
+        font-family: 'Raleway', sans-serif;
+        color: white;
+        text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+        text-align: center;
+        margin-top: 1px;
+    }
+
+    #home {
+        background-image: url("../../Images/concert.jpg");
+        background-position: center;
+    }
+</style>

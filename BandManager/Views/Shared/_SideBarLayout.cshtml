@@ -33,16 +33,20 @@
                             Welcome Band Manager
                         </a>
                     </li>
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     @*<li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
                     @if (User.IsInRole("Manager"))
                     {
+                        <li>@Html.ActionLink("Manager Dashboard", "Dashboard", "Home")</li>
                         <li>@Html.ActionLink("Band Members", "Index", "Members")</li>
                         <li>@Html.ActionLink("Events", "Index", "Events")</li>
                         <li>@Html.ActionLink("Inventory", "Index", "Inventories")</li>
                         <li>@Html.ActionLink("Calendar", "Calendar", "Home")</li>
                         <li>@Html.ActionLink("Funds", "Index", "Budgets")</li>
                         <li>@Html.ActionLink("Contacts", "Index", "Contacts")</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     }
                 </ul>
             </div>

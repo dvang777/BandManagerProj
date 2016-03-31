@@ -552,7 +552,6 @@
     <Content Include="Views\Managers\Edit.cshtml" />
     <Content Include="Views\Managers\Delete.cshtml" />
     <Content Include="Views\Shared\_template.cshtml" />
-    <Content Include="Views\Inventories\AdminView.cshtml" />
     <Content Include="Views\ItemSolds\Index.cshtml" />
     <Content Include="Views\ItemSolds\Edit.cshtml" />
     <Content Include="Views\ItemSolds\Details.cshtml" />
@@ -571,6 +570,7 @@
     <Content Include="Views\Contacts\Details.cshtml" />
     <Content Include="Views\Contacts\Edit.cshtml" />
     <Content Include="Views\Contacts\Index.cshtml" />
+    <Content Include="Views\Home\DashBoard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

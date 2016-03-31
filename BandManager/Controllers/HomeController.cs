@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
 using Microsoft.AspNet.Identity;
+using BandManager.CustomFilters;
 
 namespace BandManager.Controllers
 {
@@ -23,6 +24,33 @@ namespace BandManager.Controllers
 
             return View();
         }
+
+        [AuthLog (Roles = "Manager")]
+        public ActionResult DashBoard()
+        {
+            var quantity = db.Inventories.Select(x => x.SoldQuantity).ToArray();
+            var invent = db.Inventories.Select(z => z.Name).ToList();
+            var Isold = db.Inventories.Select(a => a.TotalSold).ToArray();
+            var ord = db.Inventories.Select(b => b.QuantityIncoming).ToArray();
+
+            ViewBag.InvSoldArray = Isold;
+            ViewBag.QuantityArray = quantity;
+            ViewBag.InventArray = invent;
+            ViewBag.OrdArray = ord;
+
+            var Sold = db.Events.Select(a => a.TotalItemSold).ToArray();
+            var rev = db.Events.Select(b => b.TotalRevenue).ToArray();
+            var Evt = db.Events.Select(c => c.Name).ToList();
+            var att = db.Events.Select(d => d.Attendance).ToArray();
+
+            ViewBag.SoldArray = Sold;
+            ViewBag.RevArray = rev;
+            ViewBag.EvtArray = Evt;
+            ViewBag.AttArray = att;
+            return View();
+        }
+
+        [AuthLog(Roles = "Manager")]
         public ActionResult Calendar()
         {
            // Appointment appt = new Appointment();
